@@ -28,6 +28,9 @@ class Session
     public function __construct()
     {
         $this->ci = get_instance();
+        
+        $this->ci->load->helper('string');
+        
         // Default to 2 years if expiration is "0"
         $this->_expiration = 60 * 60 * 24 * 365 * 2;
 
@@ -137,9 +140,13 @@ class Session
             log_message('debug', 'Session: User Agent string mismatch');
             $destroy = true;
         }
-
+        
         // update last activity time
         $this->set_userdata('last_activity', $now);
+        
+        // encrypt session id
+        $this->ci->load->library('encrypt');
+        $this->set_userdata('session_id', $this->ci->encrypt->encode(session_id()));
 
         if (!$destroy) {
             return;
