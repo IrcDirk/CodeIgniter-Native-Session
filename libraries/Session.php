@@ -145,8 +145,7 @@ class Session
         $this->set_userdata('last_activity', $now);
         
         // encrypt session id
-        $this->ci->load->library('encrypt');
-        $this->set_userdata('session_id', $this->ci->encrypt->encode(session_id()));
+        $this->set_userdata('session_id', session_id());
 
         if (!$destroy) {
             return;
