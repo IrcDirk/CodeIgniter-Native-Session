@@ -28,9 +28,6 @@ class Session
     public function __construct()
     {
         $this->ci = get_instance();
-        
-        $this->ci->load->helper('string');
-        
         // Default to 2 years if expiration is "0"
         $this->_expiration = 60 * 60 * 24 * 365 * 2;
 
@@ -92,7 +89,7 @@ class Session
         $path = '/';
         $domain = '';
         $secure = (bool) $this->_config['cookie_secure'];
-        $http_only = (bool) $this->_config['cookie_httponly'];
+        $http_only = TRUE; // FORCE FOR SECURITY
 
         if ($this->_config['sess_expiration'] !== false) {
             // Default to 2 years if expiration is "0"
@@ -145,12 +142,20 @@ class Session
         $this->set_userdata('last_activity', $now);
         
         // encrypt session id
+        //$this->ci->load->library('encrypt');
         $this->set_userdata('session_id', session_id());
 
         if (!$destroy) {
             return;
         }
-
+        
+        ini_set('session.use_trans_sid', 0);
+        ini_set('session.use_strict_mode', 1);
+        ini_set('session.use_cookies', 1);
+        ini_set('session.use_only_cookies', 1);
+        ini_set('session.hash_function', 1);
+        ini_set('session.hash_bits_per_character', 4);
+        
         $this->sess_create();
     }
 
