@@ -28,7 +28,7 @@ class Session
     public function __construct()
     {
         $this->ci = get_instance();
-    
+        
         $this->ci->load->helper('string');
         
         // Default to 2 years if expiration is "0"
@@ -41,6 +41,8 @@ class Session
 
         // Mark all new flashdata as old (data will be deleted before next request)
         $this->_flashdata_mark();
+        
+        
     }
 
     /**
@@ -98,7 +100,8 @@ class Session
             // Default to 2 years if expiration is "0"
             $expire = ($this->_config['sess_expiration'] == 0) ? $this->_expiration : $this->_config['sess_expiration'];
         }
-
+        ini_set('session.gc_maxlifetime', $expire);
+        
         if ($this->_config['cookie_path']) {
             // Use specified path
             $path = $this->_config['cookie_path'];
@@ -108,7 +111,7 @@ class Session
             // Use specified domain
             $domain = $this->_config['cookie_domain'];
         }
-
+        
         session_set_cookie_params($this->_config['sess_expire_on_close'] ? 0 : $expire, $path, $domain, $secure, $http_only);
 
         if ( ! isset($_SESSION)) {
