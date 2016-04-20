@@ -1,4 +1,4 @@
-DONT use it.
+## DONT use it, NOT SECURE!
 
 ## License
 
