@@ -159,7 +159,28 @@ class Session
         
         $this->sess_create();
     }
-
+    
+    /**
+     * Fetch the current session data if it exists
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function sess_read()
+    {
+        if(!isset($_SESSION[$this->sess_namespace])) return FALSE;
+        
+        return TRUE;
+    }
+    
+    /**
+     * Write the session data
+     *
+     * @access  public
+     * @return  void
+     */
+    function sess_write() {}
+    
     /**
      * Create Session
      *
@@ -189,6 +210,14 @@ class Session
 
         $this->store = $_SESSION[$this->sess_namespace];
     }
+
+    /**
+     * Update an existing session
+     *
+     * @access  public
+     * @return  void
+     */
+    function sess_update() { }
 
     /**
      * Destroy session
@@ -226,6 +255,17 @@ class Session
     }
 
     /**
+     * Fetch all session data
+     *
+     * @access  public
+     * @return array
+     */
+    public function all_userdata()
+    {
+        return $this->store;
+    }
+
+    /**
      * Set value for specific user data element
      *
      * @access  public
@@ -243,7 +283,7 @@ class Session
         }
         $_SESSION[$this->sess_namespace] = $this->store;
     }
-
+    
     /**
      * remove array value for specific user data element
      *
@@ -264,17 +304,6 @@ class Session
         }
 
         $_SESSION[$this->sess_namespace] = $this->store;
-    }
-
-    /**
-     * Fetch all session data
-     *
-     * @access  public
-     * @return array
-     */
-    public function all_userdata()
-    {
-        return $this->store;
     }
 
     /**
