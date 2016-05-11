@@ -1,4 +1,5 @@
-    * FLASH SESSION TO CODEIGNITER SESSION */
+    	/* change libraries/MY_Session.php to libraries/_MY_Session.php */
+    	/* FLASH SESSION TO CODEIGNITER SESSION */
 	private function check_session()
 	{		
 		if($this->input->post('session_id') == "") return FALSE;
