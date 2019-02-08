@@ -146,10 +146,13 @@ class Session
         
         // update last activity time
         $this->set_userdata('last_activity', $now);
-        
+
         // encrypt session id
         //$this->ci->load->library('encrypt');
         $this->set_userdata('session_id', session_id());
+
+        $this->set_userdata('ip_address', $this->ci->input->ip_address());
+        $this->set_userdata('user_agent', trim($this->ci->input->user_agent()));
 
         if (!$destroy) {
             return;
